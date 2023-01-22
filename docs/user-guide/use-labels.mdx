@@ -1,0 +1,109 @@
+---
+id: use-labels
+sidebar_label: Use Labels 
+title: Use Labels
+--- 
+
+Labeling is used to identify raw data, such as images, videos, etc, and provide context so that a machine learning model learns from it. For example, labels may be used to indicate if a video contains cars, or if an ultrasound shows a tumor.
+
+Labeling is used for training advanced algorithms to recognize patterns in the future.
+
+In this section, you will learn how to:
+- [Prepare your data for labeling](#prepare-your-data-for-labeling).
+- [Read labels](#read-labels).
+- [Save labels](#save-labels).
+
+## Prepare your data for labeling 
+
+> Placeholder for how to prepare data for labeling.
+
+## Read labels
+
+To successfully read labels, take the following steps:
+
+1. Authenticate using your private key. If you haven't set up your private key yet, follow the instructions in the [Authenticate](/docs/user-guide/authenticate) page.
+1. Access annotations by adding the `Project` class, as follows:
+    ```
+    from encord.project import Project
+
+    def get_project(self, project_hash: str) -> Project:
+            """
+            Get the Project class to access project fields and manipulate a project.
+
+            You will only have access to this project if you are one of the following
+
+                * Project admin
+
+                * Project team manager
+
+                * Organisation admin of the project
+
+            Args:
+                project_hash: The Project ID
+            """
+            config = SshConfig(self.user_config, resource_type=TYPE_PROJECT, resource_id=project_hash)
+            querier = Querier(config)
+            client = EncordClientProject(querier=querier, config=config)
+            return Project(client)
+    ```
+1. Get all the label details by adding the `EncordClientProject.get_label_row` class, as follows: 
+    ```
+    from typing import Iterable, List, Optional, Set, Tuple, Union
+    from encord.orm.label_row import (
+        
+        AnnotationTaskStatus,
+        LabelRow,
+        LabelRowMetadata,
+        LabelStatus,
+        Review,
+        ShadowDataState,
+    )
+
+    def get_label_row(
+        self,
+        uid: str,
+        get_signed_url: bool = True,
+        *,
+        include_object_feature_hashes: Optional[Set[str]] = None,
+        include_classification_feature_hashes: Optional[Set[str]] = None,
+        include_reviews: bool = False,
+    ) -> LabelRow:
+        """
+        Retrieve label row. If you need to retrieved multiple label rows, prefer using
+        :meth:`encord.project.Project.get_label_rows` instead.
+
+        A code example using the `include_object_feature_hashes` and `include_classification_feature_hashes`
+        filters can be found in :meth:`encord.project.Project.get_label_row`.
+
+        Args:
+            uid: A label_hash   (uid) string.
+            get_signed_url: Whether to generate signed urls to the data asset. Generating these should be disabled
+                if the signed urls are not used to speed up the request.
+            include_object_feature_hashes: If None all the objects will be included. Otherwise, only objects labels
+                will be included of which the feature_hash has been added.
+            include_classification_feature_hashes: If None all the classifications will be included. Otherwise, only
+                classification labels will be included of which the feature_hash has been added.
+            include_reviews: Whether to request read only information about the reviews of the label row.
+
+        Returns:
+            LabelRow: A label row instance.
+
+            Raises:
+            AuthenticationError: If the project API key is invalid.
+            AuthorisationError: If access to the specified resource is restricted.
+            ResourceNotFoundError: If no label exists by the specified label_hash (uid).
+            UnknownError: If an error occurs while retrieving the label.
+            OperationNotAllowed: If the read operation is not allowed by the API key.
+        """
+        return self._client.get_label_row(
+            uid,
+            get_signed_url,
+            include_object_feature_hashes=include_object_feature_hashes,
+            include_classification_feature_hashes=include_classification_feature_hashes,
+            include_reviews=include_reviews,
+        )
+    ```
+
+## Save labels 
+
+> Placeholder for how to save labels.
