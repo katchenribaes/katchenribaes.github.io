@@ -31,10 +31,6 @@ paths:
               description: A link to the next page of responses
           schema:
             $ref: '#/definitions/Goods'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     post:
       summary: Create a good
       operationId: createGoods
@@ -43,10 +39,6 @@ paths:
       responses:
         '201':
           description: Null response
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /goods/{goodId}:
     get:
       summary: Info for a specific good
@@ -64,8 +56,8 @@ paths:
           description: Expected response to a valid request
           schema:
             $ref: '#/definitions/Goods'
-        default:
-          description: Unexpected error
+        '404':
+          description: Not found - the good you're looking for does not exist
           schema:
             $ref: '#/definitions/Error'
 definitions:

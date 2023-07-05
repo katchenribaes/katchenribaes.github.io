@@ -43,12 +43,6 @@
               "schema": {
                 "$ref": "#/definitions/Goods"
               }
-            },
-            "default": {
-              "description": "Unexpected error",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
             }
           }
         },
@@ -61,12 +55,6 @@
           "responses": {
             "201": {
               "description": "Null response"
-            },
-            "default": {
-              "description": "Unexpected error",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
             }
           }
         }
@@ -94,8 +82,8 @@
                 "$ref": "#/definitions/Goods"
               }
             },
-            "default": {
-              "description": "Unexpected error",
+            "404": {
+              "description": "Not found - the good you're looking for does not exist",
               "schema": {
                 "$ref": "#/definitions/Error"
               }
