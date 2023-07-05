@@ -1,9 +1,0 @@
-/// <reference types="react" />
-import '../../global';
-import { RedocRawOptions } from 'redoc';
-export declare function ServerStyles({ specProps, lightThemeOptions, darkThemeOptions, }: {
-    specProps: SpecProps;
-    lightThemeOptions: RedocRawOptions;
-    darkThemeOptions: RedocRawOptions;
-}): JSX.Element;
-//# sourceMappingURL=ServerStyles.d.ts.map
